@@ -137,7 +137,7 @@ button {
   position:absolute;
   top:2em;
   right:2em;
-  font-size:1.2em;
+  font-size:1.5em;
   
 }
 
@@ -153,7 +153,9 @@ button {
 
 .disabled {
  color:red; 
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">let mysteryshopper = {name:"Visit the Store as a Mystery Shopper", state:"Incomplete"};
+}
+
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">let mysteryshopper = {name:"Visit the Store as a Mystery Shopper", state:"Incomplete"};
 let financialhistory = {name:"Find and Review the Store Financial History", state:"Incomplete"};
 let personnelfiles = {name:"Obtain Personnel Files on the Team", state:"Incomplete"};
 let talkprado = {name:"Talk to Prado", state:"Incomplete"};
@@ -206,7 +208,8 @@ window.updateHeader = function() {
 
 
 
-</script><tw-passagedata pid="1" name="Start" tags="menu" position="300,100" size="100,100">[[Start Game|Lobby]]</tw-passagedata><tw-passagedata pid="2" name="PassageFooter" tags="" position="600,100" size="100,100">&lt;&lt;nobr&gt;&gt;
+$('#ui-bar').remove();
+$(document.head).find('#style-ui-bar').remove();</script><tw-passagedata pid="1" name="Start" tags="menu" position="300,100" size="100,100">[[Start Game|Lobby]]</tw-passagedata><tw-passagedata pid="2" name="PassageFooter" tags="" position="600,100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;if !tags().includes(&quot;menu&quot;)&gt;&gt;
 
 &lt;div id=&quot;objectives&quot;&gt;
