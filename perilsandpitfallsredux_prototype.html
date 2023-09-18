@@ -209,7 +209,10 @@ window.updateHeader = function() {
 
 
 $('#ui-bar').remove();
-$(document.head).find('#style-ui-bar').remove();</script><tw-passagedata pid="1" name="Start" tags="menu" position="300,100" size="100,100">[[Start Game|Lobby]]</tw-passagedata><tw-passagedata pid="2" name="PassageFooter" tags="" position="600,100" size="100,100">&lt;&lt;nobr&gt;&gt;
+$(document.head).find('#style-ui-bar').remove();
+window.onbeforeunload = function(){
+   Engine.restart();
+}</script><tw-passagedata pid="1" name="Start" tags="menu" position="300,100" size="100,100">[[Start Game|Lobby]]</tw-passagedata><tw-passagedata pid="2" name="PassageFooter" tags="" position="600,100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;if !tags().includes(&quot;menu&quot;)&gt;&gt;
 
 &lt;div id=&quot;objectives&quot;&gt;
