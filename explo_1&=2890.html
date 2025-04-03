@@ -968,22 +968,19 @@ $decisions[2][2]&lt;/blockquote&gt;
 	&lt;&lt;run SimpleAudio.mute(false)&gt;&gt;
 	&lt;&lt;set $audio_muted = false&gt;&gt;
 	&lt;&lt;replace &quot;#audio&quot;&gt;&gt; &lt;&lt;include &quot;Mute Audio&quot;&gt;&gt; &lt;&lt;/replace&gt;&gt; 
-&lt;&lt;/button&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="close" tags="" position="640,212" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="9" name="far" tags="" position="479,222" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="10" name="login" tags="" position="325,50" size="100,100">&lt;div id=&quot;login-container&quot;&gt;Loading...&lt;/div&gt;
-&lt;script src=&quot;commonScript.js&quot;&gt;&lt;/script&gt;
+&lt;&lt;/button&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="close" tags="" position="640,212" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="9" name="far" tags="" position="479,222" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="10" name="login" tags="" position="325,50" size="100,100">&lt;div id=&quot;login-container&quot;&gt;Loading login page...&lt;/div&gt;
 
 &lt;script&gt;
-function insertLoginPage() {
-    if (window.loginPageContent) {
-        document.getElementById(&#39;login-container&#39;).innerHTML = window.loginPageContent;
-        console.log(&#39;Login page content successfully loaded!&#39;);
-    } else {
-        setTimeout(insertLoginPage, 50); // Try again every 50ms until it&#39;s available
-    }
+if (!sessionStorage.getItem(&#39;loginShown&#39;)) {
+    fetch(&#39;loginPage.txt&#39;)
+        .then(response =&gt; response.text())
+        .then(data =&gt; {
+            document.getElementById(&#39;login-container&#39;).innerHTML = data;
+            sessionStorage.setItem(&#39;loginShown&#39;, &#39;true&#39;); // Prevents reloading
+        })
+        .catch(error =&gt; console.error(&#39;Error loading login page:&#39;, error));
 }
-
-insertLoginPage(); // Start checking for loginPageContent
-&lt;/script&gt;
-</tw-passagedata><tw-passagedata pid="11" name="question2" tags="" position="1050,462" size="100,100">$golf
+&lt;/script&gt;</tw-passagedata><tw-passagedata pid="11" name="question2" tags="" position="1050,462" size="100,100">$golf
 &lt;img id=&quot;logo&quot; src=&quot;https://i.imgur.com/6eSJyfv.png&quot;&gt;
 &lt;div class=&quot;text-box&quot; id=&quot;question1text&quot;&gt;Taking into the account the information provided by the case study documents and the conversation between Dave and Tim, how would you rate the team that they have formed?(0-100%)&lt;/div&gt;
 
