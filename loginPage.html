@@ -69,13 +69,15 @@
 
 				if (/^[a-zA-Z]+[0-9]{3,4}$/.test(netid) && netid.length > 5 && netid.length < 8) {
 					alert('Welcome, ' + fullname);
+					$.wiki('<<set $netid = \'' + netid + '\'>>');
+					$.wiki('<<set $fullname =  \'' + fullname + '\'>>');
+					$.wiki('<<goto "Start">>');
+					
 				} else {
 					alert('Please input a valid NetID.');
 				}
 
-				$.wiki('<<set $netid = \'' + netid + '\'>>');
-				$.wiki('<<set $fullname =  \'' + fullname + '\'>>');
-				$.wiki('<<goto "Start">>');
+				
 				
 				
 
