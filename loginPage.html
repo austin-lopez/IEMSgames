@@ -73,8 +73,9 @@
 					alert('Please input a valid NetID.');
 				}
 
-				$.wiki('<<set $netid = "' + netid + '">>');
-				$.wiki('<<set $fullname = "' + fullname + '">>');
+				$.wiki('<<set $netid = \'' + netid + '\'>>');
+				$.wiki('<<set $fullname =  \'' + fullname + '\'>>');
+				$.wiki('<<goto "Start">>');
 				
 				
 
