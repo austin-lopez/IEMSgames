@@ -98,7 +98,7 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="YellowTail Part 1 70 Points" startnode="34" creator="Twine" creator-version="2.3.16" ifid="EE977D55-1E58-44EE-A3CC-1035C56B9BBB" zoom="0.6" format="SugarCube" format-version="2.36.1" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">asd@import url('https://fonts.googleapis.com/css2?family=Geostar+Fill&display=swap');
+	<tw-storydata name="YellowTail Part 1 70 Points" startnode="34" creator="Twine" creator-version="2.6.1" format="SugarCube" format-version="2.36.1" ifid="EE977D55-1E58-44EE-A3CC-1035C56B9BBB" options="" tags="" zoom="0.6" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">asd@import url('https://fonts.googleapis.com/css2?family=Geostar+Fill&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Keania+One&display=swap');
 
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans');
@@ -708,66 +708,19 @@ transform: translateY(-0.25em);
   transform: translate(-50%, -50%);
 }
   
-</style><script role="script" id="twine-user-script" type="text/twine-javascript">const dataSheetID = "1XmUPBfUTAF4Wyoy5sqfZbmyKlXYaHCe3uadVEnlGQBk";
-var sheetKey = "AIzaSyAjzKge3c8rPzqq3NNJpZVDLQ1oXmqZUu8";
-var sheets = [];
-var scripts = [];
-
-State.variables.sheetTitles = ["", "", ""];
-State.variables.netIdDatabase = {};
-State.variables.currentSection = -1;
-
-var sheetURL = (string, sheet) => 
-	"https://sheets.googleapis.com/v4/spreadsheets/" + sheet + "/values/" + string + "?key=" + sheetKey;
-
-$.get(sheetURL("DATA", dataSheetID), function (data) {
-	sheets = data.values.slice(1,2)[0];
-	sheets.shift();
-	scripts = data.values.slice(2,3)[0];
-	scripts.shift();
-	
-	sheets.forEach((element, index) => {
-	
-	    $.get(sheetURL("DATA", element), function (data) {
-			State.variables.sheetTitles[index] += (data.values.slice(0, 1)[0][0]);
-	    });
-    
-        $.get(sheetURL("NETIDS", element), function (data) {
-			var netIdData = data.values.slice(1);
-			netIdData.forEach(element => State.variables.netIdDatabase[element[0].toUpperCase()] = element[1]);
-	    });	
-	});
-});
-
-						 
-window.sendData = function(data) {
-	
-if (State.variables.netid == "tst0000") return;
-	
-	$.ajax({
-		url: "https://script.google.com/macros/s/" + scripts[State.variables.currentSection] + "/exec",
-		method: "POST",
-		dataType: "json", 
-		data: JSON.stringify(data)
-	}).done(function() { 
-	}).fail(function() {
-		  alert("Failure to submit score. Contact instructor immediately."); 
-	});
-};
-
-$(document).ready(function(){
-  $('.trigger, .slider').click(function() {
-  	$('.slider').toggleClass('close');
-	}); 
-});
-
-$(document).on(':passagestart', function (ev) {
-	if (!ev.passage.tags.includes('noreturn')) {
-		State.variables.return = ev.passage.title;
-	}
-});
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">window.gameTitle = "Yellowtail Part 1";
 
 UIBar.destroy();
+
+$.getScript("commonScript.js")
+    .done(function() {
+        console.log("commonScript.js successfully loaded!");
+    })
+    .fail(function(jqxhr, settings, exception) {
+        console.error("Error loading commonScript.js:", exception);
+    });
+
+
 
 
 /* typewriter */
@@ -827,9 +780,64 @@ UIBar.destroy();
                 }
                 clearInterval(intr);
             }
-        ,t);
+            ,t);
     };
 }();
+
+
+importStyles('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+
+
+/*! <<numberpool>> macro set for SugarCube v2 */
+!function(){"use strict";if("undefined"==typeof version||void 0===version.title||"SugarCube"!==version.title||void 0===version.major||version.major<2||void 0===version.minor||version.minor<22)throw new Error("<<numberpool>> macro set requires SugarCube 2.22.0 or greater, aborting load");Macro.add("numberinput",{handler:function(){function validateAndApply(el,addend){var curValue=Math.trunc(State.getVar(varName)),newValue=Math.trunc(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(null!=addend&&(newValue+=addend),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool){var poolValue=pool.get(),delta=(newValue-curValue)*poolCost;delta<0?newPoolValue=poolValue-delta:delta>0&&poolValue>=poolCost?(poolValue<delta&&(newValue=curValue+Math.trunc(poolValue/poolCost),delta=poolValue-poolValue%poolCost),newPoolValue=poolValue-delta):newValue=curValue}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this=this;if(this.args.length<4){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),poolCost=1,autofocus=!1;if(this.args.length>5?(poolCost=Number(this.args[4]),autofocus="autofocus"===this.args[5]):this.args.length>4&&("autofocus"===this.args[4]?autofocus=!0:poolCost=Number(this.args[4])),Number.isNaN(defValue)||!Number.isFinite(defValue)||Math.trunc(defValue)!==defValue)return this.error("default value ("+this.args[1]+") is not a whole number");if(Number.isNaN(minValue)||!Number.isFinite(minValue)||Math.trunc(minValue)!==minValue)return this.error("min value ("+this.args[2]+") is not a whole number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue)||Math.trunc(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a whole number");if(Number.isNaN(poolCost)||!Number.isFinite(poolCost)||Math.trunc(poolCost)!==poolCost||poolCost<=0)return this.error("pool cost ("+this.args[4]+") is not a whole number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var pool=function(){var parent=_this.contextSelect(function(ctx){return"numberpool"===ctx.name});return null!==parent&&parent.hasOwnProperty("pool")?parent.pool:null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input"));$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),jQuery(document.createElement("button")).attr({id:this.name+"-minus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),-1)})).appendTo($elControl),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"text",pattern:"\\d+",tabindex:0}).on("change",this.createShadowWrapper(function(){validateAndApply(this)})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),jQuery(document.createElement("button")).attr({id:this.name+"-plus-"+varId}).text("").ariaClick(this.createShadowWrapper(function(){return validateAndApply($elInput.get(0),1)})).appendTo($elControl),$elInput.val(defValue),validateAndApply($elInput.get(0)),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}}),Macro.add("numberpool",{tags:["onchange"],handler:function(){if(0===this.args.length)return this.error("no variable name specified");if(this.payload.length>2)return this.error("multiple <<onchange>> sections specified");if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var curValue=State.getVar(varName);if("number"!=typeof curValue||Number.isNaN(curValue)||!Number.isFinite(curValue))return this.error("pool value is not a number");var varId=Util.slugify(varName);TempState.hasOwnProperty(this.name)||(TempState[this.name]={}),TempState[this.name].hasOwnProperty(varId)||(TempState[this.name][varId]=0),Object.defineProperty(this,"pool",{value:Object.defineProperties({},{get:{value:function(){return State.getVar(varName)}},set:{value:function(content){return function(value){value!==State.getVar(varName)&&(State.setVar(varName,value),content&&new Wikifier(null,content))}}(this.payload.length>1?this.payload[1].contents.trim():"")}})}),jQuery(document.createElement("div")).attr("id",this.name+"-"+varId+"-"+TempState[this.name][varId]++).addClass("macro-"+this.name).wiki(this.payload[0].contents.replace(/^\n/,"")).appendTo(this.output)}}),Macro.add("numberslider",{handler:function(){function stepValidate(value){if(fracDigits>0){var ma=Number(minValue+"e"+fracDigits),sa=Number(stepValue+"e"+fracDigits),_va=Number(value+"e"+fracDigits)-ma;return Number(_va-_va%sa+ma+"e-"+fracDigits)}var va=value-minValue;return va-va%stepValue+minValue}function validateAndApply(el){var curValue=State.getVar(varName),newValue=Number(el.value),newPoolValue=null;if(Number.isNaN(newValue)||!Number.isFinite(newValue))return el.value=curValue,!1;if(newValue=stepValidate(newValue),newValue<minValue?newValue=minValue:newValue>maxValue&&(newValue=maxValue),null!==pool)if(fracDigits>0){var pa=Number(pool.get()+"e"+fracDigits),ca=Number(curValue+"e"+fracDigits),na=Number(newValue+"e"+fracDigits),delta=na-ca;pa<delta&&(na-=delta-pa,delta=na-ca,newValue=Number(na+"e-"+fracDigits)),newPoolValue=Number(pa-delta+"e-"+fracDigits)}else{var poolValue=pool.get(),_delta=newValue-curValue;poolValue<_delta&&(newValue-=_delta-poolValue,_delta=newValue-curValue),newPoolValue=poolValue-_delta}return State.setVar(varName,newValue),el.value=newValue,null!==newPoolValue&&pool.set(newPoolValue),!0}var _this2=this;if(this.args.length<5){var errors=[];return this.args.length<1&&errors.push("variable name"),this.args.length<2&&errors.push("default value"),this.args.length<3&&errors.push("min value"),this.args.length<4&&errors.push("max value"),this.args.length<5&&errors.push("step value"),this.error("no "+errors.join(" or ")+" specified")}if("string"!=typeof this.args[0])return this.error("variable name argument is not a string");var varName=this.args[0].trim();if("$"!==varName[0]&&"_"!==varName[0])return this.error('variable name "'+this.args[0]+'" is missing its sigil ($ or _)');var varId=Util.slugify(varName),defValue=Number(this.args[1]),minValue=Number(this.args[2]),maxValue=Number(this.args[3]),stepValue=Number(this.args[4]),autofocus=this.args.length>5&&"autofocus"===this.args[5];if(Number.isNaN(defValue)||!Number.isFinite(defValue))return this.error("default value ("+this.args[1]+") is not a number");if(Number.isNaN(minValue)||!Number.isFinite(minValue))return this.error("min value ("+this.args[2]+") is not a number");if(Number.isNaN(maxValue)||!Number.isFinite(maxValue))return this.error("max value ("+this.args[3]+") is not a number");if(Number.isNaN(stepValue)||!Number.isFinite(stepValue)||stepValue<=0)return this.error("step value ("+this.args[4]+") is not a number greater than zero");if(defValue<minValue)return this.error("default value ("+this.args[1]+") is less than min value ("+this.args[2]+")");if(defValue>maxValue)return this.error("default value ("+this.args[1]+") is greater than max value ("+this.args[3]+")");var fracDigits=function(){var str=String(stepValue),pos=str.lastIndexOf(".");return-1===pos?0:str.length-pos-1}();if(stepValidate(maxValue)!==maxValue)return this.error("max value ("+this.args[3]+") is not a multiple of the step value ("+this.args[4]+") plus the min value ("+this.args[2]+")");var pool=function(){var parent=_this2.contextSelect(function(ctx){return"numberpool"===ctx.name});return undefined !== parent && null !== parent && parent.hasOwnProperty("pool") ? parent.pool : null}();Config.debug&&this.debugView.modes({block:!0});var $elControl=jQuery(document.createElement("div")),$elInput=jQuery(document.createElement("input")),$elValue=void 0,showValue=void 0;$elControl.attr("id",this.name+"-body-"+varId).addClass("macro-"+this.name).appendTo(this.output),$elInput.attr({id:this.name+"-input-"+varId,name:this.name+"-input-"+varId,type:"range",min:minValue,max:maxValue,step:stepValue,tabindex:0}).on("change input."+Util.slugify(this.name),this.createShadowWrapper(function(){validateAndApply(this),"function"==typeof showValue&&showValue()})).on("keypress",function(ev){13===ev.which&&(ev.preventDefault(),$elInput.trigger("change"))}).appendTo($elControl),!Browser.isIE||Browser.ieVersion>9?($elValue=jQuery(document.createElement("span")).attr("id",this.name+"-value-"+varId).appendTo($elControl),showValue=function(){$elValue.text(Number($elInput.val()).toFixed(fracDigits))}):$elInput.off("input."+Util.slugify(this.name)),$elInput.val(defValue),validateAndApply($elInput.get(0)),"function"==typeof showValue&&showValue(),autofocus&&($elInput.attr("autofocus","autofocus"),jQuery(document).one(":passagedisplay",function(){return setTimeout(function(){return $elInput.focus()},Engine.minDomActionDelay)}))}})}();
+
+;Macro.add("fadein",{tags:null,handler:function(){var t,a,s=$(document.createElement("span")),e=this.payload[0].contents;if(0===this.args.length)return this.error("no arguments given");t=Util.fromCssTime(this.args[0]),a=1<this.args.length?Util.fromCssTime(this.args[1]):0,s.wiki(e).addClass("macro-"+this.name).appendTo(this.output).hide().delay(a).fadeIn(t)}}),Macro.add("fadeout",{tags:null,handler:function(){var t,a,s=$(document.createElement("span")),e=this.payload[0].contents;if(0===this.args.length)return this.error("no arguments given");t=Util.fromCssTime(this.args[0]),a=1<this.args.length?Util.fromCssTime(this.args[1]):0,s.wiki(e).addClass("macro-"+this.name).appendTo(this.output).delay(a).fadeOut(t)}});
+
+// continue.min.js, for SugarCube 2, by Chapel
+// v1.0.1, 2020-08-02, 1d6b869ee7a4b36293aaf4003bfe47ffdfbdeba8
+;!function(){"use strict";var n=["a",":button",'*[role="button"]',".continue-macro-ignore","#ui-bar","#ui-dialog"],t=0;function o(){$(document).on("click.continue-macro keyup.continue-macro",n.join(", "),(function(n){n.stopPropagation()}))}function e(){if(State.length>0)return!1;var t=[].slice.call(arguments).flatten();return n=n.concat(t),!0}function c(n,o){var e=function(){var n="."+Date.now().toString(36)+"-"+t;return t++,n}();if(o&&"function"==typeof o){var c="click.continue-macro"+e;n&&(c=c+" keyup.continue-macro"+e),$(document).one(c,(function(){o.call(),$(document).off(e)}))}}prehistory["%%continue-expiration"]=function(){t=0},$(document).one(":passagerender",(function(){o()})),Macro.add("ignore",{handler:function(){if(!e(this.args))return this.error("the <<ignore>> macro should only be run from StoryInit or equivalent.")}}),Macro.add("cont",{tags:null,handler:function(){var n,t=this.args.includes("append"),o=this.args.includesAny("key","keypress","press","button"),e=this.payload[0].contents;t&&(n=$(document.createElement("span")).addClass("macro-"+this.name).appendTo(this.output)),c(o,this.createShadowWrapper((function(){t&&n&&n instanceof $?n.wiki(e):$.wiki(e)})))}}),setup.cont=c,setup.cont.ignore=e,setup.cont.reset=function(){var t=[].slice.call(arguments).flatten();n=n.concat(t),$(document).off(".continue-macro"),o()},window.cont=window.cont||setup.cont}();
+// end continue.min.js
+
+// done.min.js, for SugarCube 2, by Chapel
+// v1.0.1, 2020-08-02, 1d6b869ee7a4b36293aaf4003bfe47ffdfbdeba8
+//;!function(){var a=1;Macro.add("done",{skipArgs:!0,tags:null,handler:function(){var n=this.payload[0].contents.trim();""!==n&&(postdisplay[":chapel-done-macro-"+a]=function(a){delete postdisplay[a],$.wiki(n)},a++)}})}();
+// end done.min.js
+
+// meters.min.js, for SugarCube 2, by Chapel
+// v1.0.1, 2020-08-02, 1d6b869ee7a4b36293aaf4003bfe47ffdfbdeba8
+;!function(){"use strict";var t=!0,e=!1,s=!1,i={full:"#2ECC40",empty:"#FF4136",back:"#DDDDDD",height:"12px",width:"180px",animate:400,easing:"swing",text:"#111111",label:"",align:"center"},n=["center","left","right"],r=["swing","linear"];function a(t,e){return t&&"string"==typeof t&&(t=t.toLowerCase().trim())?t:e||""}function o(t){return t<.5?2*t*t:(4-2*t)*t-1}function l(t,e){if(!(this instanceof l))return new l(t,e);var s=clone(i);this.settings=Object.assign(s,t),this.settings.align=a(this.settings.align),this.settings.easing=a(this.settings.easing),n.includes(this.settings.align)||(this.settings.align="center"),r.includes(this.settings.easing)||(this.settings.easing="swing"),e=Number(e),Number.isNaN(e)&&(e=1),e=Math.clamp(e,0,1),this.value=e;var h=$(document.createElement("div")).addClass("chapel-meter").attr({"data-val":e,"data-label":this.settings.label}).css({position:"relative","background-color":this.settings.back,height:this.settings.height,width:this.settings.width,overflow:"hidden"}),g=$(document.createElement("div")).addClass("meter-label").css({top:0,right:0,"font-size":this.settings.height,"font-weight":"bold","line-height":"100%",width:"100%",height:"100%","vertical-align":"middle","text-align":this.settings.align,color:this.settings.text,"z-index":1,position:"relative",bottom:"100%"}).wiki(this.settings.label).appendTo(h),u=$(document.createElement("div")).addClass("meter-top").css({"background-color":this.settings.full,opacity:o(this.value),width:"100%",height:"100%","z-index":0}),c=$(document.createElement("div")).addClass("meter-bottom").css({position:"absolute",top:0,left:0,"background-color":this.settings.empty,opacity:1,width:100*this.value+"%",height:"100%","z-index":0}).append(u).appendTo(h);this.$element=h,this.$bars={top:u,bottom:c},this.$label=g,g.css("font-size",parseInt(h.css("height"),10)<parseInt($(".passage").css("font-size"),10)?h.css("height"):$(".passage").css("font-size")),g.css("line-height",h.css("height"))}Object.assign(l,{_list:new Map,is:function(t){return t instanceof l},has:function(t){return l._list.has(t)&&l.is(l._list.get(t))},get:function(t){return l.has(t)?l._list.get(t):null},del:function(t){l.has(t)&&l._list.delete(t)},add:function(t,s,i){if(!l.has(t)||e){var n=new l(s,i);return l._list.set(t,n),n}console.error('Meter "'+t+'" already exists.')},_emit:function(t,e){l.is(t)&&t.$element.trigger({type:":"+e,meter:t})}}),Object.assign(l.prototype,{constructor:l,_label:function(t){var e=this;function s(){e.$label.empty().wiki(e.settings.label),e.$label.css("font-size",parseInt(e.$element.css("height"),10)<parseInt(e.$element.parent().css("font-size"),10)?e.$element.css("height"):e.$element.parent().css("font-size")),e.$label.css("line-height",e.$element.css("height"))}return t?setTimeout(s,Engine.minDomActionDelay):s(),this},_width:function(){var t=this;return this.$bars.bottom.animate({width:100*this.value+"%"},this.settings.animate,this.settings.easing,(function(){l._emit(t,"meter-animation-complete")})),this},_color:function(){return this.$bars.top.animate({opacity:o(this.value)},this.settings.animate,this.settings.easing),this},animate:function(){return l._emit(this,"meter-animation-start"),this._color()._width()._label()},val:function(t){return void 0!==t&&(t=Number(t),Number.isNaN(t)&&(t=1),t=Math.clamp(t,0,1),this.value=t,this.animate()),this.value},options:function(t){return t&&"object"==typeof t&&Object.assign(this.settings,t),this.settings},unwrap:function(){return this.$element[0]},place:function(t,e){var s=$(document.createElement("span"));return t instanceof jQuery||(t=$(t)),t[0]||console.warn("meter#place() -> no valid target"),e&&"object"==typeof e&&(e.classes&&(Array.isArray(e.classes)||"string"==typeof e.classes)&&s.addClass(e.classes),e.attr&&"object"==typeof e.attr&&s.attr(e.attr)),t.append(s.append(this.$element)),this._label(!0),this},on:function(t,e){return"function"!=typeof e?this:t&&"string"==typeof t&&t.trim()?(t=t.split(" ").map((function(t){return(t=t.split(".")[0])+".userland"})).join(" "),this.$element.on(t,e),this):this},one:function(t,e){return"function"!=typeof e?this:t&&"string"==typeof t&&t.trim()?(t=t.split(" ").map((function(t){return(t=t.split(".")[0])+".userland"})).join(" "),this.$element.one(t,e),this):this},off:function(t){return t=t&&"string"==typeof t&&t.trim()?t.split(" ").map((function(t){return(t=t.split(".")[0])+".userland"})).join(" "):".userland",this.$element.off(t),this},click:function(t,e){return this.$element.ariaClick(t,e),this},clone:function(){return new l(this.settings,this.value)},toJSON:function(){return JSON.reviveWrapper("new setup.Meter("+JSON.stringify(this.settings)+", "+this.value+")")}}),setup.Meter=l,t&&(window.Meter=window.Meter||l),Macro.add("newmeter",{tags:["colors","sizing","animation","label"],handler:function(){if(State.length>0&&!s)return this.error("The `<<newmeter>>` macro must be called in your `StoryInit` special passage. Seriously. No excuses. --Love, Chapel");if(this.args.length<1)return this.error("The `<<newmeter>>` macro requires at least one argument: a meter name.");var t=this.args[0],i=null,n=null,r=null,a=null;if("string"!=typeof t)return this.error("Invalid meter name.");if(t=t.trim(),l.has(t)&&!e)return this.error('Cannot clobber the existing meter "'+t+'".');this.payload.length&&(i=this.payload.find((function(t){return"colors"===t.name})),n=this.payload.find((function(t){return"sizing"===t.name})),r=this.payload.find((function(t){return"animation"===t.name})),a=this.payload.find((function(t){return"label"===t.name})));var o={};if(i){if(!i.args.length)return this.error("No arguments passed to the `<<colors>>` tag.");switch(i.args.length){case 1:o.empty=i.args[0],o.full="transparent";break;case 2:o.full=i.args[0],o.empty=i.args[1];break;default:o.full=i.args[0],o.empty=i.args[1],o.back=i.args[2]}}if(n){if(!n.args.length)return this.error("No arguments passed to the `<<sizing>>` tag.");o.width=n.args[0],n.args[1]&&(o.height=n.args[1])}if(r){if(!r.args.length)return this.error("No arguments passed to the `<<animation>>` tag.");if("boolean"!=typeof r.args[0]||r.args[0]){if("string"!=typeof r.args[0])return this.error("The argument to the `<<animation>>` tag should be `true`, `false`, or a valid CSS time value.");o.animate=Util.fromCssTime(r.args[0])}else o.animate=0;r.args[1]&&["swing","linear"].includes(r.args[1])&&(o.easing=r.args[1])}if(a){var h=a.args[0];if(!h||"string"!=typeof h)return this.error("The labelText argument for the `<<label>>` tag is required.");o.label=h.trim(),a.args[1]&&"string"==typeof a.args[1]&&(o.text=a.args[1]),a.args[2]&&"string"==typeof a.args[2]&&(o.align=a.args[2])}l.add(t,o,this.args[1])}}),Macro.add("showmeter",{handler:function(){if(this.args.length<1)return this.error("This macro requires at least one argument: the meter's name.");var t=this.args[0];if("string"!=typeof t)return this.error("Invalid meter name.");t=t.trim();var e=l.get(t);if(!e||!l.is(e))return this.error('The meter "'+t+'" does not exist.');"number"==typeof this.args[1]&&e.val(this.args[1]),e.place(this.output,{classes:"macro-"+this.name,attr:{id:"meter-"+Util.slugify(t)}})}}),Macro.add("updatemeter",{handler:function(){if(this.args.length<2)return this.error("This macro requires two arguments: the meter's name and a value.");var t=this.args[0];if("string"!=typeof t)return this.error("Invalid meter name.");t=t.trim();var e=l.get(t);if(!e||!l.is(e))return this.error('The meter "'+t+'" does not exist.');e.val(this.args[1])}})}();
+// end meters.min.js
+
+// popover.min.js, for SugarCube 2, by Chapel
+// v1.0.0, 2020-08-02, 1d6b869ee7a4b36293aaf4003bfe47ffdfbdeba8
+;!function(){"use strict";function o(o,i){i=function(){return[].slice.call(arguments).flatten().filter((function(o){return o&&"string"==typeof o&&o.trim()}))||[]}(i),$("#ui-overlay, #ui-dialog").addClass("popover"),$("#ui-overlay, #ui-dialog, #ui-dialog-body").addClass(i),i.includesAny("noclick","no-click")&&$("#ui-overlay").removeClass("ui-close"),Dialog.setup("","popover"),Dialog.wiki(o),Dialog.open(),$(document).one(":dialogclosed",(function(){$("#ui-overlay").addClass("ui-close"),$("#ui-overlay, #ui-dialog").removeClass("popover"),$("#ui-overlay, #ui-dialog, #ui-dialog-body").removeClass(i)}))}Macro.add("popover",{tags:null,handler:function(){o(this.payload[0].contents,this.args)}}),Macro.add("dismisspopover",{skipArgs:!0,handler:function(){$("ui-overlay").hasClass("popover")&&Dialog.close()}}),setup.popover=o}();
+// end popover.min.js
+
+// mouseover.min.js, for SugarCube 2, by Chapel
+// v1.0.1, 2020-08-02, 1d6b869ee7a4b36293aaf4003bfe47ffdfbdeba8
+;Macro.add("mouseover",{tags:["onhover","onmouseover","onmousein","onmouseenter","onmouseout"],skipArgs:!0,handler:function(){if(this.payload.length<2)return this.error("No event tag used.");var e={mouseover:[],mousein:[],mouseout:[]},o=$(document.createElement("span")).addClass("macro-"+this.name).wiki(this.payload[0].contents).appendTo(this.output);this.payload.forEach((function(o){switch(o.name){case"onhover":case"onmouseover":e.mouseover.push(o.contents);break;case"onmousein":case"onmouseenter":e.mousein.push(o.contents);break;case"onmouseout":e.mouseout.push(o.contents);break;default:return}})),e.mouseover.length&&o.on("mouseover",this.createShadowWrapper((function(o){$.wiki(e.mouseover.join(" "))}))),e.mousein.length&&o.on("mouseenter",this.createShadowWrapper((function(o){$.wiki(e.mousein.join(" "))}))),e.mouseout.length&&o.on("mouseout",this.createShadowWrapper((function(o){$.wiki(e.mouseout.join(" "))})))}});
+// end mouseover.min.js
+
+
+
+/*! typed.js integration module for SugarCube */
+!function(){"use strict";function getInlineOptions(classNames){var options={},typedRe=/^typed(?:-(\w+))+\b$/,parseRe=/-(speed|delay)(\d+)\b/g,match=void 0;if("typed"!==classNames)for(var classOpts=classNames.toLowerCase().split(/\s+/),i=0;i<classOpts.length;++i)if(typedRe.test(classOpts[i])){for(;null!==(match=parseRe.exec(classOpts[i]));)switch(match[1]){case"speed":options.typeSpeed=Number(match[2]);break;case"delay":options.startDelay=Number(match[2])}break}return options}function typedCallbackFactory(el,callback){return function(){var $outer=jQuery(el),$inner=jQuery('<div class="typedjs-text-wrapper" style="display:block;position:absolute;left:0;top:0;"><span class="typed"></span></div>'),$source=$outer.children('[class|="typed"]'),options=jQuery.extend({strings:["^0 "+$source.html()],typeSpeed:40,startDelay:400,onComplete:function(){$inner.children(".typed-cursor").remove(),callback()},preStringTyped:function(){jQuery.event.trigger(":typedstart")},onStringTyped:function(){jQuery.event.trigger(":typedstop")}},getInlineOptions($source.attr("class")));$outer.append($inner),new Typed($inner.children()[0],options)}}postrender[":typedSetupHandler"]=function(content){jQuery(content).find('[class|="typed"]').addClass("typed").css("visibility","hidden").wrap('<div class="typedjs-outer-wrapper" style="display:block;position:relative;"></div>')},postdisplay[":typedAnimationHandler"]=function(){var $elements=jQuery("#passages .typedjs-outer-wrapper");if(0!==$elements.length){for(var callback=function(){jQuery.event.trigger(":typedcomplete")},i=$elements.length-1;i>=0;--i)callback=typedCallbackFactory($elements[i],callback);callback()}}}();
+!function(){
+/*!
+ * 
+ *   typed.js - A JavaScript Typing Animation Library
+ *   Author: Matt Boldt <me@mattboldt.com>
+ *   Version: v2.0.6
+ *   Url: https://github.com/mattboldt/typed.js
+ *   License(s): MIT
+ * 
+ */
+(function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?exports.Typed=e():t.Typed=e()})(this,function(){return function(t){function e(n){if(s[n])return s[n].exports;var i=s[n]={exports:{},id:n,loaded:!1};return t[n].call(i.exports,i,i.exports,e),i.loaded=!0,i.exports}var s={};return e.m=t,e.c=s,e.p="",e(0)}([function(t,e,s){"use strict";function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(e,"__esModule",{value:!0});var i=function(){function t(t,e){for(var s=0;s<e.length;s++){var n=e[s];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(e,s,n){return s&&t(e.prototype,s),n&&t(e,n),e}}(),r=s(1),o=s(3),a=function(){function t(e,s){n(this,t),r.initializer.load(this,s,e),this.begin()}return i(t,[{key:"toggle",value:function(){this.pause.status?this.start():this.stop()}},{key:"stop",value:function(){this.typingComplete||this.pause.status||(this.toggleBlinking(!0),this.pause.status=!0,this.options.onStop(this.arrayPos,this))}},{key:"start",value:function(){this.typingComplete||this.pause.status&&(this.pause.status=!1,this.pause.typewrite?this.typewrite(this.pause.curString,this.pause.curStrPos):this.backspace(this.pause.curString,this.pause.curStrPos),this.options.onStart(this.arrayPos,this))}},{key:"destroy",value:function(){this.reset(!1),this.options.onDestroy(this)}},{key:"reset",value:function(){var t=arguments.length<=0||void 0===arguments[0]||arguments[0];clearInterval(this.timeout),this.replaceText(""),this.cursor&&this.cursor.parentNode&&(this.cursor.parentNode.removeChild(this.cursor),this.cursor=null),this.strPos=0,this.arrayPos=0,this.curLoop=0,t&&(this.insertCursor(),this.options.onReset(this),this.begin())}},{key:"begin",value:function(){var t=this;this.typingComplete=!1,this.shuffleStringsIfNeeded(this),this.insertCursor(),this.bindInputFocusEvents&&this.bindFocusEvents(),this.timeout=setTimeout(function(){t.currentElContent&&0!==t.currentElContent.length?t.backspace(t.currentElContent,t.currentElContent.length):t.typewrite(t.strings[t.sequence[t.arrayPos]],t.strPos)},this.startDelay)}},{key:"typewrite",value:function(t,e){var s=this;this.fadeOut&&this.el.classList.contains(this.fadeOutClass)&&(this.el.classList.remove(this.fadeOutClass),this.cursor&&this.cursor.classList.remove(this.fadeOutClass));var n=this.humanizer(this.typeSpeed),i=1;return this.pause.status===!0?void this.setPauseStatus(t,e,!0):void(this.timeout=setTimeout(function(){e=o.htmlParser.typeHtmlChars(t,e,s);var n=0,r=t.substr(e);if("^"===r.charAt(0)&&/^\^\d+/.test(r)){var a=1;r=/\d+/.exec(r)[0],a+=r.length,n=parseInt(r),s.temporaryPause=!0,s.options.onTypingPaused(s.arrayPos,s),t=t.substring(0,e)+t.substring(e+a),s.toggleBlinking(!0)}if("`"===r.charAt(0)){for(;"`"!==t.substr(e+i).charAt(0)&&(i++,!(e+i>t.length)););var u=t.substring(0,e),l=t.substring(u.length+1,e+i),c=t.substring(e+i+1);t=u+l+c,i--}s.timeout=setTimeout(function(){s.toggleBlinking(!1),e===t.length?s.doneTyping(t,e):s.keepTyping(t,e,i),s.temporaryPause&&(s.temporaryPause=!1,s.options.onTypingResumed(s.arrayPos,s))},n)},n))}},{key:"keepTyping",value:function(t,e,s){0===e&&(this.toggleBlinking(!1),this.options.preStringTyped(this.arrayPos,this)),e+=s;var n=t.substr(0,e);this.replaceText(n),this.typewrite(t,e)}},{key:"doneTyping",value:function(t,e){var s=this;this.options.onStringTyped(this.arrayPos,this),this.toggleBlinking(!0),this.arrayPos===this.strings.length-1&&(this.complete(),this.loop===!1||this.curLoop===this.loopCount)||(this.timeout=setTimeout(function(){s.backspace(t,e)},this.backDelay))}},{key:"backspace",value:function(t,e){var s=this;if(this.pause.status===!0)return void this.setPauseStatus(t,e,!0);if(this.fadeOut)return this.initFadeOut();this.toggleBlinking(!1);var n=this.humanizer(this.backSpeed);this.timeout=setTimeout(function(){e=o.htmlParser.backSpaceHtmlChars(t,e,s);var n=t.substr(0,e);if(s.replaceText(n),s.smartBackspace){var i=s.strings[s.arrayPos+1];i&&n===i.substr(0,e)?s.stopNum=e:s.stopNum=0}e>s.stopNum?(e--,s.backspace(t,e)):e<=s.stopNum&&(s.arrayPos++,s.arrayPos===s.strings.length?(s.arrayPos=0,s.options.onLastStringBackspaced(),s.shuffleStringsIfNeeded(),s.begin()):s.typewrite(s.strings[s.sequence[s.arrayPos]],e))},n)}},{key:"complete",value:function(){this.options.onComplete(this),this.loop?this.curLoop++:this.typingComplete=!0}},{key:"setPauseStatus",value:function(t,e,s){this.pause.typewrite=s,this.pause.curString=t,this.pause.curStrPos=e}},{key:"toggleBlinking",value:function(t){if(this.cursor&&!this.pause.status&&this.cursorBlinking!==t){this.cursorBlinking=t;var e=t?"infinite":0;this.cursor.style.animationIterationCount=e}}},{key:"humanizer",value:function(t){return Math.round(Math.random()*t/2)+t}},{key:"shuffleStringsIfNeeded",value:function(){this.shuffle&&(this.sequence=this.sequence.sort(function(){return Math.random()-.5}))}},{key:"initFadeOut",value:function(){var t=this;return this.el.className+=" "+this.fadeOutClass,this.cursor&&(this.cursor.className+=" "+this.fadeOutClass),setTimeout(function(){t.arrayPos++,t.replaceText(""),t.strings.length>t.arrayPos?t.typewrite(t.strings[t.sequence[t.arrayPos]],0):(t.typewrite(t.strings[0],0),t.arrayPos=0)},this.fadeOutDelay)}},{key:"replaceText",value:function(t){this.attr?this.el.setAttribute(this.attr,t):this.isInput?this.el.value=t:"html"===this.contentType?this.el.innerHTML=t:this.el.textContent=t}},{key:"bindFocusEvents",value:function(){var t=this;this.isInput&&(this.el.addEventListener("focus",function(e){t.stop()}),this.el.addEventListener("blur",function(e){t.el.value&&0!==t.el.value.length||t.start()}))}},{key:"insertCursor",value:function(){this.showCursor&&(this.cursor||(this.cursor=document.createElement("span"),this.cursor.className="typed-cursor",this.cursor.innerHTML=this.cursorChar,this.el.parentNode&&this.el.parentNode.insertBefore(this.cursor,this.el.nextSibling)))}}]),t}();e["default"]=a,t.exports=e["default"]},function(t,e,s){"use strict";function n(t){return t&&t.__esModule?t:{"default":t}}function i(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(e,"__esModule",{value:!0});var r=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var s=arguments[e];for(var n in s)Object.prototype.hasOwnProperty.call(s,n)&&(t[n]=s[n])}return t},o=function(){function t(t,e){for(var s=0;s<e.length;s++){var n=e[s];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(e,s,n){return s&&t(e.prototype,s),n&&t(e,n),e}}(),a=s(2),u=n(a),l=function(){function t(){i(this,t)}return o(t,[{key:"load",value:function(t,e,s){if("string"==typeof s?t.el=document.querySelector(s):t.el=s,t.options=r({},u["default"],e),t.isInput="input"===t.el.tagName.toLowerCase(),t.attr=t.options.attr,t.bindInputFocusEvents=t.options.bindInputFocusEvents,t.showCursor=!t.isInput&&t.options.showCursor,t.cursorChar=t.options.cursorChar,t.cursorBlinking=!0,t.elContent=t.attr?t.el.getAttribute(t.attr):t.el.textContent,t.contentType=t.options.contentType,t.typeSpeed=t.options.typeSpeed,t.startDelay=t.options.startDelay,t.backSpeed=t.options.backSpeed,t.smartBackspace=t.options.smartBackspace,t.backDelay=t.options.backDelay,t.fadeOut=t.options.fadeOut,t.fadeOutClass=t.options.fadeOutClass,t.fadeOutDelay=t.options.fadeOutDelay,t.isPaused=!1,t.strings=t.options.strings.map(function(t){return t.trim()}),"string"==typeof t.options.stringsElement?t.stringsElement=document.querySelector(t.options.stringsElement):t.stringsElement=t.options.stringsElement,t.stringsElement){t.strings=[],t.stringsElement.style.display="none";var n=Array.prototype.slice.apply(t.stringsElement.children),i=n.length;if(i)for(var o=0;o<i;o+=1){var a=n[o];t.strings.push(a.innerHTML.trim())}}t.strPos=0,t.arrayPos=0,t.stopNum=0,t.loop=t.options.loop,t.loopCount=t.options.loopCount,t.curLoop=0,t.shuffle=t.options.shuffle,t.sequence=[],t.pause={status:!1,typewrite:!0,curString:"",curStrPos:0},t.typingComplete=!1;for(var o in t.strings)t.sequence[o]=o;t.currentElContent=this.getCurrentElContent(t),t.autoInsertCss=t.options.autoInsertCss,this.appendAnimationCss(t)}},{key:"getCurrentElContent",value:function(t){var e="";return e=t.attr?t.el.getAttribute(t.attr):t.isInput?t.el.value:"html"===t.contentType?t.el.innerHTML:t.el.textContent}},{key:"appendAnimationCss",value:function(t){if(t.autoInsertCss&&t.showCursor&&t.fadeOut){var e=document.createElement("style");e.type="text/css";var s="";t.showCursor&&(s+="\n        .typed-cursor{\n          opacity: 1;\n          animation: typedjsBlink 0.7s infinite;\n          -webkit-animation: typedjsBlink 0.7s infinite;\n                  animation: typedjsBlink 0.7s infinite;\n        }\n        @keyframes typedjsBlink{\n          50% { opacity: 0.0; }\n        }\n        @-webkit-keyframes typedjsBlink{\n          0% { opacity: 1; }\n          50% { opacity: 0.0; }\n          100% { opacity: 1; }\n        }\n      "),t.fadeOut&&(s+="\n        .typed-fade-out{\n          opacity: 0;\n          transition: opacity .25s;\n          -webkit-animation: 0;\n                  animation: 0;\n        }\n      "),0!==e.length&&(e.innerHTML=s,document.head.appendChild(e))}}}]),t}();e["default"]=l;var c=new l;e.initializer=c},function(t,e){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var s={strings:["These are the default values...","You know what you should do?","Use your own!","Have a great day!"],stringsElement:null,typeSpeed:0,startDelay:0,backSpeed:0,smartBackspace:!0,shuffle:!1,backDelay:700,fadeOut:!1,fadeOutClass:"typed-fade-out",fadeOutDelay:500,loop:!1,loopCount:1/0,showCursor:!0,cursorChar:"|",autoInsertCss:!0,attr:null,bindInputFocusEvents:!1,contentType:"html",onComplete:function(t){},preStringTyped:function(t,e){},onStringTyped:function(t,e){},onLastStringBackspaced:function(t){},onTypingPaused:function(t,e){},onTypingResumed:function(t,e){},onReset:function(t){},onStop:function(t,e){},onStart:function(t,e){},onDestroy:function(t){}};e["default"]=s,t.exports=e["default"]},function(t,e){"use strict";function s(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(e,"__esModule",{value:!0});var n=function(){function t(t,e){for(var s=0;s<e.length;s++){var n=e[s];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(t,n.key,n)}}return function(e,s,n){return s&&t(e.prototype,s),n&&t(e,n),e}}(),i=function(){function t(){s(this,t)}return n(t,[{key:"typeHtmlChars",value:function(t,e,s){if("html"!==s.contentType)return e;var n=t.substr(e).charAt(0);if("<"===n||"&"===n){var i="";for(i="<"===n?">":";";t.substr(e+1).charAt(0)!==i&&(e++,!(e+1>t.length)););e++}return e}},{key:"backSpaceHtmlChars",value:function(t,e,s){if("html"!==s.contentType)return e;var n=t.substr(e).charAt(0);if(">"===n||";"===n){var i="";for(i=">"===n?"<":"&";t.substr(e-1).charAt(0)!==i&&(e--,!(e<0)););e--}return e}}]),t}();e["default"]=i;var r=new i;e.htmlParser=r}])});
+//# sourceMappingURL=typed.min.js.map
+}.call(window);
+
+
 
 
 </script><tw-passagedata pid="1" name="intro" tags="twine" position="947,834" size="100,100">&lt;&lt;nobr&gt;&gt;
@@ -1140,7 +1148,7 @@ $meeting
 
 &lt;div class=&quot;backwrapper&quot;&gt;&lt;div&gt;&lt;&lt;return &quot;Back&quot;&gt;&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;&lt;audio &quot;:all&quot; stop&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="Start" tags="twine" position="993,20" size="100,100">&lt;&lt;include images&gt;&gt;
+&lt;&lt;audio &quot;:all&quot; stop&gt;&gt;</tw-passagedata><tw-passagedata pid="14" name="Start" tags="twine" position="1000,25" size="100,100">&lt;&lt;include images&gt;&gt;
 &lt;h1 style=&quot;font-size:60px;white-space:nowrap; font-family: &#39;Special Elite&#39;, cursive;&quot;&gt;YellowTail Marine, Inc.&lt;/h1&gt;
 &lt;h4 style=&quot;margin-top:-5em;font-size:20px;&quot;&gt;An Interactive Case Study&lt;/h4&gt;
 
@@ -1501,64 +1509,34 @@ $boatyard
 
 &lt;&lt;silently&gt;&gt;
 &lt;&lt;audio &quot;:all&quot; stop&gt;&gt;
-&lt;&lt;/silently&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="login" tags="" position="543,176" size="100,100">&lt;&lt;nobr&gt;&gt;&lt;&lt;repeat 0.1s&gt;&gt;
-&lt;div style=&quot;background-color: #836EAA;width:100%; height: 100%; position: fixed; top:0; left:0;&quot;&gt;
-&lt;&lt;if $sheetTitles[0] and $sheetTitles[1] and $sheetTitles[2]&gt;&gt;
-&lt;div class=&quot;login-page&quot;&gt;
-  &lt;div class=&quot;form&quot;&gt;
-  &lt;div class=&quot;formtitle&quot;&gt;Yellowtail Part 1&lt;br&gt;Scorekeeping&lt;/div&gt;
-    &lt;form class=&quot;login-form&quot;&gt;
-      &lt;input id=&quot;nuid&quot; type=&quot;text&quot; placeholder=&quot;NetID&quot;/&gt;
-      &lt;input id=&quot;nick&quot; type=&quot;text&quot; placeholder=&quot;Nickname (optional)&quot;/&gt;
-	  &lt;div id=&quot;sectionButtons&quot;&gt;
-	  &lt;/div&gt;
-      &lt;&lt;button &quot;Submit&quot;&gt;&gt;
-	  	&lt;&lt;if $currentSection == -1&gt;&gt;&lt;&lt;run window.alert(&quot;Please select a class section.&quot;)&gt;&gt;&lt;&lt;else&gt;&gt;
-	  	&lt;&lt;set $netid = document.getElementById(&#39;nuid&#39;).value.toLowerCase()&gt;&gt;
-		&lt;&lt;if $netid.substring(0, 3).match(/^[a-zA-Z]+$/) and $netid.substring(3).match(/^[0-9]+$/) and $netid.length &gt; 5 and $netid.length &lt; 8&gt;&gt;
-			&lt;&lt;set $fullname = document.getElementById(&#39;nick&#39;).value&gt;&gt;
-			&lt;&lt;set $databasename to $netIdDatabase[$netid.toUpperCase()]&gt;&gt;
-			&lt;&lt;if !$fullname&gt;&gt;
-				&lt;&lt;if $databasename&gt;&gt; &lt;&lt;set $fullname to $databasename&gt;&gt;
-				&lt;&lt;else&gt;&gt; &lt;&lt;set $fullname to &#39;Player &quot;&#39; + $netid.substring(0, 3) + &#39;&quot;&#39;&gt;&gt;&lt;&lt;/if&gt;&gt;
-			&lt;&lt;/if&gt;&gt;
-			&lt;&lt;goto &quot;Start&quot;&gt;&gt;
-		&lt;&lt;else&gt;&gt;
-			&lt;&lt;run window.alert(&quot;Please input a valid NetID.&quot;)&gt;&gt;
-		&lt;&lt;/if&gt;&gt;
-		&lt;&lt;/if&gt;&gt;
-		&lt;&lt;/button&gt;&gt;
-	  &lt;div class=&quot;message&quot;&gt;Your nickname will be displayed in the public leaderboards. If left blank, your name associated with your NetID will display instead.&lt;/div&gt;
-    &lt;/form&gt;
-  &lt;/div&gt;
- &lt;/div&gt;
- &lt;&lt;timed 0.01s&gt;&gt;
- &lt;&lt;script&gt;&gt;
-	State.variables.sheetTitles.forEach((section, index) =&gt; {
-	if (section == &quot;undefined&quot;) return;
-	$(&quot;&lt;button&gt;&quot;, {
-				id: &quot;section&quot; + index,
-				text: section,
-				class: &quot;sections&quot;,
-			  }).appendTo(&quot;#sectionButtons&quot;);
-			  
-	try{throw index}
-	catch(INDEX) {
-	
-	document.querySelector(&#39;#section&#39; + INDEX).addEventListener(&#39;click&#39;, function(event) {
-  	event.preventDefault();
-  	$(&quot;.sections&quot;).removeClass(&quot;clicked&quot;);
-	$(&quot;#&quot; + &quot;section&quot; + INDEX).addClass(&quot;clicked&quot;);
-	State.variables.currentSection = index;
-})}
-		});
-&lt;&lt;/script&gt;&gt;
-&lt;&lt;/timed&gt;&gt;
-&lt;&lt;stop&gt;&gt;&lt;&lt;/if&gt;&gt;
-&lt;/div&gt;
-&lt;&lt;/repeat&gt;&gt;
+&lt;&lt;/silently&gt;&gt;</tw-passagedata><tw-passagedata pid="34" name="login" tags="" position="550,175" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div id=&quot;login-container&quot; style=&quot;background-color: #836EAA;width:100%; height: 100%; position: fixed; top:0; left:0;&quot;&gt;&lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;
 
+
+&lt;&lt;script&gt;&gt;
+fetch(&#39;loginPage.html&#39;)
+    .then(response =&gt; response.text())
+    .then(data =&gt; {
+        const container = document.getElementById(&#39;login-container&#39;);
+        container.innerHTML = data;
+
+        console.log(&#39;Login page content successfully loaded!&#39;);
+
+        // Find and execute scripts from the loaded content
+        container.querySelectorAll(&#39;script&#39;).forEach(script =&gt; {
+            const newScript = document.createElement(&#39;script&#39;);
+            if (script.src) {
+                newScript.src = script.src;  // If it&#39;s an external script
+                newScript.onload = () =&gt; console.log(`Loaded external script: ${script.src}`);
+            } else {
+                newScript.textContent = script.textContent;  // Inline script
+            }
+            document.body.appendChild(newScript);
+        });
+    })
+    .catch(error =&gt; console.error(&#39;Error loading login page:&#39;, error));
+&lt;&lt;/script&gt;&gt;
 </tw-passagedata><tw-passagedata pid="35" name="Untitled Passage" tags="" position="83,106" size="100,100">[[View Scores|https://docs.google.com/spreadsheets/d/e/2PACX-1vQgaijQfxJYgEk3HZL9WHucgjmGqXgY6rQbp9MssWfVtvMzRzj0c6eX0RpnMbi-GoL-ptMJioAzwG5R/pubhtml?gid=0&amp;single=true]]</tw-passagedata><tw-passagedata pid="36" name="pre-intro 2" tags="" position="1094,180" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;p&gt;BOZ&lt;br&gt;(PHONE)&lt;br&gt;&quot;You&#39;ll have half an hour. I want you flying to Florida by the end of this morning.&quot;&lt;/p&gt;
 &lt;&lt;/nobr&gt;&gt;
@@ -1979,7 +1957,7 @@ $boatyard
 
 &lt;&lt;silently&gt;&gt;\
 
-&lt;&lt;/silently&gt;&gt;\</tw-passagedata><tw-passagedata pid="54" name="take charge 6" tags="" position="51,1232" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;/silently&gt;&gt;\</tw-passagedata><tw-passagedata pid="54" name="take charge 6" tags="" position="50,1225" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;p&gt;Charlie sighs.&lt;/p&gt;
 &lt;&lt;/nobr&gt;&gt;
 
