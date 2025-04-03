@@ -53,7 +53,7 @@ window.sendData = function(data) {
         method: "POST",
         dataType: "json",
         contentType: 'text/plain;charset=utf-8',
-        data: DATA
+        data: JSON.stringify(data)
     }).done(function() {
         console.log("Sending data to Google Sheets, section " + window.currentSection + " : ", data);
         console.log("url: " + "https://script.google.com/macros/s/" + scripts[window.currentSection] + "/exec");
