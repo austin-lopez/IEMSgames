@@ -57,4 +57,6 @@ window.sendData = function(data) {
     }).fail(function() {
         alert("Failure to submit score. Contact instructor immediately.");
     });
+    
+    console.log("Sending data to Google Sheets: ", data);
 };
