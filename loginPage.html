@@ -51,8 +51,14 @@
 			}
 
 		} else {
-			console.log("Sheets are still loading... Retrying in 100ms");
-			setTimeout(waitForSheetsAndInitialize, 100);
+			console.log("Sheets are still loading... Retrying in 500ms");
+			if (typeof State !== "undefined") {
+				console.log("Sheets loaded: " + State.variables.sheetsLoaded + " / " + State.variables.sheetCount);
+			}
+			else {
+				console.log("State is undefined. Sheets not loaded.");
+			}
+			setTimeout(waitForSheetsAndInitialize, 500);
 		}
 	}
 
