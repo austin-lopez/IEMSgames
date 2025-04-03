@@ -1,0 +1,61 @@
+
+<div class="login-page">
+	<div class="form">
+		<div class="formtitle">Explo Part 1<br>Scorekeeping</div>
+		<form class="login-form">
+			<input id="nuid" type="text" placeholder="NetID"/>
+			<input id="nick" type="text" placeholder="Nickname (optional)"/>
+			<div id="sectionButtons"></div>
+			<button type="button" onclick="submitLogin()">Submit</button>
+			<div class="message">
+				Your nickname will be displayed in the public leaderboards. If left blank, your name associated with your NetID will display instead.
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	// Simulate the sheet loading (you will replace this with your actual logic)
+	const sheetsLoaded = 1; // Simulate that sheets are loaded
+	const sheetCount = 1; // Simulate that there's 1 sheet to load
+
+	// Wait for sheets to load
+	if (sheetsLoaded >= sheetCount) {
+		const sectionTitles = ["Class A", "Class B", "Class C"]; // Example section titles
+		const netIdDatabase = { "123456": "Player Name" }; // Example NetID database
+
+		// Dynamically generate section buttons
+		sectionTitles.forEach((section, index) => {
+			if (section !== "undefined") {
+				const sectionButton = document.createElement('button');
+				sectionButton.id = 'section' + index;
+				sectionButton.textContent = section;
+				sectionButton.classList.add('sections');
+				document.getElementById('sectionButtons').appendChild(sectionButton);
+
+				sectionButton.addEventListener('click', function(event) {
+					event.preventDefault();
+					document.querySelectorAll('.sections').forEach(button => button.classList.remove('clicked'));
+					sectionButton.classList.add('clicked');
+					currentSection = index; // Update current section
+				});
+			}
+		});
+
+		// Function to handle the form submission
+		function submitLogin() {
+			const netid = document.getElementById('nuid').value.toLowerCase();
+			const fullname = document.getElementById('nick').value || netIdDatabase[netid.toUpperCase()] || 'Player "' + netid.substring(0, 3) + '"';
+
+			// Validate the NetID format
+			if (/^[a-zA-Z]+[0-9]{3,4}$/.test(netid) && netid.length > 5 && netid.length < 8) {
+				alert('Welcome, ' + fullname);
+				// Continue to the next section or game logic
+			} else {
+				alert('Please input a valid NetID.');
+			}
+		}
+	} else {
+		console.log("Sheets are still loading...");
+	}
+</script>
