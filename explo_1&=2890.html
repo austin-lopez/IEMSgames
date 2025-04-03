@@ -966,15 +966,29 @@ $decisions[2][2]&lt;/blockquote&gt;
 &lt;div id=&quot;login-container&quot; style=&quot;background-color: #836EAA;width:100%; height: 100%; position: fixed; top:0; left:0;&quot;&gt;&lt;/div&gt;
 &lt;&lt;/nobr&gt;&gt;
 
-&lt;script&gt;
+&lt;&lt;script&gt;&gt;
 fetch(&#39;loginPage.html&#39;)
     .then(response =&gt; response.text())
     .then(data =&gt; {
-        document.getElementById(&#39;login-container&#39;).innerHTML = data;
+        const container = document.getElementById(&#39;login-container&#39;);
+        container.innerHTML = data;
+
         console.log(&#39;Login page content successfully loaded!&#39;);
+
+        // Find and execute scripts from the loaded content
+        container.querySelectorAll(&#39;script&#39;).forEach(script =&gt; {
+            const newScript = document.createElement(&#39;script&#39;);
+            if (script.src) {
+                newScript.src = script.src;  // If it&#39;s an external script
+                newScript.onload = () =&gt; console.log(`Loaded external script: ${script.src}`);
+            } else {
+                newScript.textContent = script.textContent;  // Inline script
+            }
+            document.body.appendChild(newScript);
+        });
     })
     .catch(error =&gt; console.error(&#39;Error loading login page:&#39;, error));
-&lt;/script&gt;</tw-passagedata><tw-passagedata pid="11" name="question2" tags="" position="1050,462" size="100,100">$golf
+&lt;&lt;/script&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="question2" tags="" position="1050,462" size="100,100">$golf
 &lt;img id=&quot;logo&quot; src=&quot;https://i.imgur.com/6eSJyfv.png&quot;&gt;
 &lt;div class=&quot;text-box&quot; id=&quot;question1text&quot;&gt;Taking into the account the information provided by the case study documents and the conversation between Dave and Tim, how would you rate the team that they have formed?(0-100%)&lt;/div&gt;
 
