@@ -58,16 +58,21 @@
 
 			// Function to handle form submission
 			function submitLogin() {
-				const netid = document.getElementById('nuid').value.toLowerCase();
-				const fullname = document.getElementById('nick').value || netIdDatabase[netid.toUpperCase()] || 'Player "' + netid.substring(0, 3) + '"';
 
-				$.wiki('<<set $netid = ' + netid + '>>');
-				$.wiki('<<set $fullname = ' + fullname + '>>');
-				
 				if (currentSection === -1) {
 					alert('Please select a class section.');
 					return;
 				}
+				
+				const netid = document.getElementById('nuid').value.toLowerCase();
+				const fullname = document.getElementById('nick').value || netIdDatabase[netid.toUpperCase()] || 'Player "' + netid.substring(0, 3) + '"';
+
+				
+
+				$.wiki('<<set $netid = ' + netid + '>>');
+				$.wiki('<<set $fullname = ' + fullname + '>>');
+				
+				
 
 				if (/^[a-zA-Z]+[0-9]{3,4}$/.test(netid) && netid.length > 5 && netid.length < 8) {
 					alert('Welcome, ' + fullname);
