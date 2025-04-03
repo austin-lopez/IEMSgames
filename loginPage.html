@@ -16,10 +16,9 @@
 <script>
 
 	function waitForSheetsAndInitialize() {
-		// Wait for sheets to load
-		if (State != null && State.variables.sheetsLoaded >= State.variables.sheetCount) {
-			
-			console.log("Sheets loaded successfully.");
+		console.log("Attempting to load sheets...");
+		if (State && State.variables.sheetsLoaded >= State.variables.sheetCount) {
+			console.log("Sheets loaded. Initializing...");
 
 			// Dynamically generate section buttons
 			State.variables.sheetTitles.forEach((section, index) => {
@@ -30,33 +29,33 @@
 					sectionButton.classList.add('sections');
 					document.getElementById('sectionButtons').appendChild(sectionButton);
 
-					sectionButton.addEventListener('click', function (event) {
+					sectionButton.addEventListener('click', function(event) {
 						event.preventDefault();
 						document.querySelectorAll('.sections').forEach(button => button.classList.remove('clicked'));
 						sectionButton.classList.add('clicked');
-						currentSection = index; // Update current section
+						currentSection = index;
 					});
 				}
 			});
 
-			// Function to handle the form submission
+			// Function to handle form submission
 			function submitLogin() {
 				const netid = document.getElementById('nuid').value.toLowerCase();
 				const fullname = document.getElementById('nick').value || netIdDatabase[netid.toUpperCase()] || 'Player "' + netid.substring(0, 3) + '"';
 
-				// Validate the NetID format
 				if (/^[a-zA-Z]+[0-9]{3,4}$/.test(netid) && netid.length > 5 && netid.length < 8) {
 					alert('Welcome, ' + fullname);
-					// Continue to the next section or game logic
 				} else {
 					alert('Please input a valid NetID.');
 				}
 			}
+
 		} else {
-			console.log("Sheets are still loading...");
+			console.log("Sheets are still loading... Retrying in 100ms");
 			setTimeout(waitForSheetsAndInitialize, 100);
 		}
 	}
-	
+
+	// Start checking for sheet readiness
 	waitForSheetsAndInitialize();
 </script>
