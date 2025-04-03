@@ -968,19 +968,65 @@ $decisions[2][2]&lt;/blockquote&gt;
 	&lt;&lt;run SimpleAudio.mute(false)&gt;&gt;
 	&lt;&lt;set $audio_muted = false&gt;&gt;
 	&lt;&lt;replace &quot;#audio&quot;&gt;&gt; &lt;&lt;include &quot;Mute Audio&quot;&gt;&gt; &lt;&lt;/replace&gt;&gt; 
-&lt;&lt;/button&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="close" tags="" position="640,212" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="9" name="far" tags="" position="479,222" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="10" name="login" tags="" position="325,50" size="100,100">&lt;div id=&quot;login-container&quot;&gt; &lt;/div&gt;
-
-&lt;script&gt;
-    fetch(&#39;loginPage.txt&#39;)
-        .then(response =&gt; response.text())
-        .then(data =&gt; {
-            window.state = State.variables;
-            document.getElementById(&#39;login-container&#39;).innerHTML = `
-                &lt;&lt;print &quot;${data}&quot; &gt;&gt;
-            `;
-        })
-        .catch(error =&gt; console.error(&#39;Error loading login page:&#39;, error));
-&lt;/script&gt;</tw-passagedata><tw-passagedata pid="11" name="question2" tags="" position="1050,462" size="100,100">$golf
+&lt;&lt;/button&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="close" tags="" position="640,212" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="9" name="far" tags="" position="479,222" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="10" name="login" tags="" position="325,50" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;div style=&quot;background-color: #836EAA;width:100%; height: 100%; position: fixed; top:0; left:0;&quot;&gt;
+&lt;&lt;repeat 0.3s&gt;&gt;
+&lt;&lt;if $sheetsLoaded gte $sheetCount&gt;&gt;
+&lt;div class=&quot;login-page&quot;&gt;
+  &lt;div class=&quot;form&quot;&gt;
+  &lt;div class=&quot;formtitle&quot;&gt;Explo Part 1&lt;br&gt;Scorekeeping&lt;/div&gt;
+    &lt;form class=&quot;login-form&quot;&gt;
+      &lt;input id=&quot;nuid&quot; type=&quot;text&quot; placeholder=&quot;NetID&quot;/&gt;
+      &lt;input id=&quot;nick&quot; type=&quot;text&quot; placeholder=&quot;Nickname (optional)&quot;/&gt;
+	  &lt;div id=&quot;sectionButtons&quot;&gt;
+	  &lt;/div&gt;
+      &lt;&lt;button &quot;Submit&quot;&gt;&gt;
+	  	&lt;&lt;if $currentSection == -1&gt;&gt;&lt;&lt;run window.alert(&quot;Please select a class section.&quot;)&gt;&gt;&lt;&lt;else&gt;&gt;
+	  	&lt;&lt;set $netid = document.getElementById(&#39;nuid&#39;).value.toLowerCase()&gt;&gt;
+		&lt;&lt;if $netid.substring(0, 3).match(/^[a-zA-Z]+$/) and $netid.substring(3).match(/^[0-9]+$/) and $netid.length &gt; 5 and $netid.length &lt; 8&gt;&gt;
+			&lt;&lt;set $fullname = document.getElementById(&#39;nick&#39;).value&gt;&gt;
+			&lt;&lt;set $databasename to $netIdDatabase[$netid.toUpperCase()]&gt;&gt;
+			&lt;&lt;if !$fullname&gt;&gt;
+				&lt;&lt;if $databasename&gt;&gt; &lt;&lt;set $fullname to $databasename&gt;&gt;
+				&lt;&lt;else&gt;&gt; &lt;&lt;set $fullname to &#39;Player &quot;&#39; + $netid.substring(0, 3) + &#39;&quot;&#39;&gt;&gt;&lt;&lt;/if&gt;&gt;
+			&lt;&lt;/if&gt;&gt;
+			&lt;&lt;goto &quot;Start&quot;&gt;&gt;
+		&lt;&lt;else&gt;&gt;
+			&lt;&lt;run window.alert(&quot;Please input a valid NetID.&quot;)&gt;&gt;
+		&lt;&lt;/if&gt;&gt;
+		&lt;&lt;/if&gt;&gt;
+		&lt;&lt;/button&gt;&gt;
+	  &lt;div class=&quot;message&quot;&gt;Your nickname will be displayed in the public leaderboards. If left blank, your name associated with your NetID will display instead.&lt;/div&gt;
+    &lt;/form&gt;
+  &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;&lt;timed 0.01s&gt;&gt;
+ &lt;&lt;script&gt;&gt;
+	State.variables.sheetTitles.forEach((section, index) =&gt; {
+	if (section == &quot;undefined&quot;) return;
+	$(&quot;&lt;button&gt;&quot;, {
+				id: &quot;section&quot; + index,
+				text: section,
+				class: &quot;sections&quot;,
+			  }).appendTo(&quot;#sectionButtons&quot;);
+			  
+	try{throw index}
+	catch(INDEX) {
+	
+	document.querySelector(&#39;#section&#39; + INDEX).addEventListener(&#39;click&#39;, function(event) {
+  	event.preventDefault();
+  	$(&quot;.sections&quot;).removeClass(&quot;clicked&quot;);
+	$(&quot;#&quot; + &quot;section&quot; + INDEX).addClass(&quot;clicked&quot;);
+	State.variables.currentSection = index;
+})}
+		});
+&lt;&lt;/script&gt;&gt;
+&lt;&lt;/timed&gt;&gt;
+&lt;&lt;stop&gt;&gt;
+&lt;/div&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;/repeat&gt;&gt;
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="11" name="question2" tags="" position="1050,462" size="100,100">$golf
 &lt;img id=&quot;logo&quot; src=&quot;https://i.imgur.com/6eSJyfv.png&quot;&gt;
 &lt;div class=&quot;text-box&quot; id=&quot;question1text&quot;&gt;Taking into the account the information provided by the case study documents and the conversation between Dave and Tim, how would you rate the team that they have formed?(0-100%)&lt;/div&gt;
 
