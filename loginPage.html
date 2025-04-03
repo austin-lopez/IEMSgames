@@ -52,11 +52,11 @@
 
 		} else {
 			console.log("Sheets are still loading... Retrying in 500ms");
-			if (typeof State !== "undefined") {
+			if (typeof sugarCubeVariables !== "undefined") {
 				console.log("Sheets loaded: " + sugarCubeVariables.sheetsLoaded + " / " + sugarCubeVariables.sheetCount);
 			}
 			else {
-				console.log("State is undefined. Sheets not loaded.");
+				console.log("sugarCubeVariables is undefined. Sheets not loaded.");
 			}
 			setTimeout(waitForSheetsAndInitialize, 500);
 		}
