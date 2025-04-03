@@ -17,7 +17,7 @@
 
 	function waitForSheetsAndInitialize() {
 		console.log("Attempting to load sheets...");
-		if (State && State.variables.sheetsLoaded >= State.variables.sheetCount) {
+		if (typeof State !== "undefined" && State.variables.sheetsLoaded >= State.variables.sheetCount) {
 			console.log("Sheets loaded. Initializing...");
 
 			// Dynamically generate section buttons
