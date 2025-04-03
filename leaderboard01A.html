@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)https://www.williamjwhite.com/games/html/leaderboard.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><span class="title"></span> Leaderboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,400&display=swap");
+
+      :root {
+        --font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #0b0032ff;
+        font-family: var(--font-family);
+      }
+
+      h1 {
+        text-align: left;
+        color: #a778ecff;
+        font-weight: 700;
+        text-shadow: 0px 0px 15px rgba(185, 157, 228, 0.288);
+        font-size: 2em;
+        margin-bottom: 1px;
+      }
+
+      h2 {
+        font-size: 1.5em;
+        margin-top: 1px;
+        margin-bottom: 1px;
+        color: #3484f2;
+      }
+
+      p {
+        color: #fff;
+      }
+
+      p.disclaimer {
+        font-style: italic;
+        font-weight: 400;
+        margin-top: 3px;
+        margin-bottom: 5px;
+      }
+
+      p#updated {
+        color: #999999;
+        font-weight: 400;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 0.8em;
+        border-top: 0.5px solid #999999;
+      }
+
+      .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        overflow: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      th {
+        border-bottom: 3px solid #fff;
+        color: #a778ecff;
+        font-weight: 500;
+      }
+
+      td {
+        color: #fff;
+        font-weight: 400;
+      }
+
+      th,
+      td {
+        padding: 10px 15px;
+        font-size: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content-wrapper">
+      <h1>Leaderboard</h1>
+      <h2><span class="title"></span></h2>
+      <p class="disclaimer">Note: Results may not be completely up to date. Refresh the page to view most recent available results.</p>
+      <table id="student-list">
+        <tbody><tr>
+          <th>Rank</th>
+          <th>Student</th>
+          <th>Total Score</th>
+        </tr>
+      </tbody></table>
+      <p id="updated"></p>
+    </div>
+
+    <script>
+      //source: https://youtu.be/MDKph2XhqXc
+
+      function compare(a, b) {
+        // Use toUpperCase() to ignore character casing
+        const studentA = a.score;
+        const studentB = b.score;
+
+        let comparison = 0;
+        if (studentA < studentB) {
+          comparison = 1;
+        } else if (studentA > studentB) {
+          comparison = -1;
+        }
+        return comparison;
+      }
+
+      var resultsTable = document.getElementById("student-list");
+
+      var pointsData = [];
+
+      var sheetID = "1_IsgKNEzQqqO8g-3KfeQmfMvCBo1A72phwksya-j1PE";
+      var sheetKey = "AIzaSyDbAMvetESCRm5z4IPjHlSofzXuZasbE7I";
+      var sheetURL = string => 
+	"https://sheets.googleapis.com/v4/spreadsheets/" + sheetID + "/values/" + string + "?key=" + sheetKey;
+
+      $.get(
+        sheetURL("DATA"),
+        function (data) {
+
+          const title = data.values.slice(0, 1)[0][0];
+          console.log(title);
+          pointsData = data.values.slice(2);
+          studentArr = [];
+
+          for (var i = 0; i < pointsData.length; i++) {
+            var data = pointsData[i];
+            studentUserName = data[1];
+            
+            const scores = data.slice(2, 12).map( (value) => { 
+              if( value != '')
+                return parseInt(value);
+              else
+                return 0;
+            });
+            var curScore = scores.reduce((a, b) => a + b, 0);
+            
+            studentArr.push({
+              rank: 0,
+              username: studentUserName,
+              score: curScore
+            });
+          }
+
+          studentArr.sort(compare);
+
+          for (var i = 0; i < studentArr.length; i++) {
+            var newRow = document.createElement("tr");
+
+            var studentRank = document.createElement("td");
+            studentRank.textContent = i;
+            newRow.appendChild(studentRank);
+
+            var studentName = document.createElement("td");
+            studentName.textContent = studentArr[i].username;
+            newRow.appendChild(studentName);
+
+            var studentScore = document.createElement("td");
+            studentScore.textContent = studentArr[i].score;
+            newRow.appendChild(studentScore);
+
+            resultsTable.appendChild(newRow);
+          }
+
+          $(".title").text(title);
+         
+        }
+      );
+		 
+    </script>
+  
+
+</body></html>
