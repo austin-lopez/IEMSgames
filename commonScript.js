@@ -59,4 +59,5 @@ window.sendData = function(data) {
     });
     
     console.log("Sending data to Google Sheets, section " + window.currentSection + " : ", data);
+    console.log("url: " + "https://script.google.com/macros/s/" + scripts[window.currentSection] + "/exec");
 };
