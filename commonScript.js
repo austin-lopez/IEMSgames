@@ -28,13 +28,9 @@ $.get(sheetURL("DATA", dataSheetID), function (data) {
         $.get(sheetURL("NETIDS", element), function (data) {
             var netIdData = data.values.slice(1);
             netIdData.forEach(element => State.variables.netIdDatabase[element[0].toUpperCase()] = element[1]);
-
-            State.variables.sheetsLoaded += 1;
-
-
+            State.variables.sheetsLoaded++;
+                
         });
-
-        State.variables.sheetsLoaded = true;
     });
 });
 
