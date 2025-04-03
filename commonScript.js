@@ -9,8 +9,6 @@ window.currentSection = -1;
 window.sheetCount = 3;
 window.sheetsLoaded = 0;
 
-
-
 var sheetURL = (string, sheet) =>
     "https://sheets.googleapis.com/v4/spreadsheets/" + sheet + "/values/" + string + "?key=" + sheetKey;
 
@@ -50,8 +48,6 @@ window.sendData = function(data) {
         alert("Failure to submit score. Contact instructor immediately.");
     });
 };
-
-UIBar.destroy();
 
 
 /* typewriter */
