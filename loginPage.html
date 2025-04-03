@@ -1,7 +1,7 @@
 
 <div class="login-page">
 	<div class="form">
-		<div class="formtitle">sugar<br>Scorekeeping</div>
+		<div class="formtitle">window<br>Scorekeeping</div>
 		<form class="login-form">
 			<input id="nuid" type="text" placeholder="NetID"/>
 			<input id="nick" type="text" placeholder="Nickname (optional)"/>
@@ -17,11 +17,11 @@
 
 	function waitForSheetsAndInitialize() {
 		console.log("Attempting to load sheets...");
-		if (typeof sugarCubeVariables !== "undefined" && sugarCubeVariables.sheetsLoaded >= sugarCubeVariables.sheetCount) {
+		if (window.sheetsLoaded >= window.sheetCount) {
 			console.log("Sheets loaded. Initializing...");
 
 			// Dynamically generate section buttons
-			sugarCubeVariables.sheetTitles.forEach((section, index) => {
+			window.sheetTitles.forEach((section, index) => {
 				if (section !== "undefined") {
 					const sectionButton = document.createElement('button');
 					sectionButton.id = 'section' + index;
@@ -52,12 +52,7 @@
 
 		} else {
 			console.log("Sheets are still loading... Retrying in 500ms");
-			if (typeof sugarCubeVariables !== "undefined") {
-				console.log("Sheets loaded: " + sugarCubeVariables.sheetsLoaded + " / " + sugarCubeVariables.sheetCount);
-			}
-			else {
-				console.log("sugarCubeVariables is undefined. Sheets not loaded.");
-			}
+			console.log("Sheets loaded: " + window.sheetsLoaded + " / " + window.sheetCount);
 			setTimeout(waitForSheetsAndInitialize, 500);
 		}
 	}
