@@ -67,18 +67,18 @@
 				const netid = document.getElementById('nuid').value.toLowerCase();
 				const fullname = document.getElementById('nick').value || netIdDatabase[netid.toUpperCase()] || 'Player "' + netid.substring(0, 3) + '"';
 
-				
+				if (/^[a-zA-Z]+[0-9]{3,4}$/.test(netid) && netid.length > 5 && netid.length < 8) {
+					alert('Welcome, ' + fullname);
+				} else {
+					alert('Please input a valid NetID.');
+				}
 
 				$.wiki('<<set $netid = ' + netid + '>>');
 				$.wiki('<<set $fullname = ' + fullname + '>>');
 				
 				
 
-				if (/^[a-zA-Z]+[0-9]{3,4}$/.test(netid) && netid.length > 5 && netid.length < 8) {
-					alert('Welcome, ' + fullname);
-				} else {
-					alert('Please input a valid NetID.');
-				}
+				
 			}
 
 		} else {
