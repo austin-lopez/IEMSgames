@@ -9,7 +9,7 @@ window.currentSection = -1;
 window.sheetCount = 3;
 window.sheetsLoaded = 0;
 
-UIBar.destroy();
+
 
 var sheetURL = (string, sheet) =>
     "https://sheets.googleapis.com/v4/spreadsheets/" + sheet + "/values/" + string + "?key=" + sheetKey;
