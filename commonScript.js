@@ -48,17 +48,19 @@ window.sendData = function(data) {
 
     if (window.netid == "tst0000") return;
 
-    $.ajax({
-        url: "https://script.google.com/macros/s/" + scripts[window.currentSection] + "/exec",
-        method: "POST",
-        dataType: "json",
-        data: JSON.stringify(data)
-    }).done(function() {
-        console.log("Sending data to Google Sheets, section " + window.currentSection + " : ", data);
-        console.log("url: " + "https://script.google.com/macros/s/" + scripts[window.currentSection] + "/exec");
-    }).fail(function() {
-        alert("Failure to submit score. Contact instructor immediately.");
-    });
+    var options = {
+        'method' : 'post',
+        'contentType': 'application/json',
+        // Convert the JavaScript object to a JSON string.
+        'payload' : JSON.stringify(data)
+    };
+    
+    var url = "https://script.google.com/macros/s/" + scripts[window.currentSection] + "/exec";
+
+    UrlFetchApp.fetch(url, options);
+    
+    
+
     
  
 };
