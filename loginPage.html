@@ -18,6 +18,8 @@
 	function waitForSheetsAndInitialize() {
 		// Wait for sheets to load
 		if (State != null && State.variables.sheetsLoaded >= State.variables.sheetCount) {
+			
+			console.log("Sheets loaded successfully.");
 
 			// Dynamically generate section buttons
 			State.variables.sheetTitles.forEach((section, index) => {
