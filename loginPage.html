@@ -62,6 +62,12 @@
 		}
 	}
 
-	// Start checking for sheet readiness
-	waitForSheetsAndInitialize();
+	
+	if (typeof State == "undefined") {
+		$(document).on(':storyready', function() {
+			waitForSheetsAndInitialize();
+		});
+	} 
+	
+	else waitForSheetsAndInitialize();
 </script>
