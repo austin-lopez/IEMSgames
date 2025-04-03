@@ -1,7 +1,7 @@
 
 <div class="login-page">
 	<div class="form">
-		<div class="formtitle"><br>Scorekeeping</div>
+		<div class="formtitle">sugar<br>Scorekeeping</div>
 		<form class="login-form">
 			<input id="nuid" type="text" placeholder="NetID"/>
 			<input id="nick" type="text" placeholder="Nickname (optional)"/>
@@ -17,11 +17,11 @@
 
 	function waitForSheetsAndInitialize() {
 		console.log("Attempting to load sheets...");
-		if (typeof State !== "undefined" && State.variables.sheetsLoaded >= State.variables.sheetCount) {
+		if (typeof sugarCubeVariables !== "undefined" && sugarCubeVariables.sheetsLoaded >= sugarCubeVariables.sheetCount) {
 			console.log("Sheets loaded. Initializing...");
 
 			// Dynamically generate section buttons
-			State.variables.sheetTitles.forEach((section, index) => {
+			sugarCubeVariables.sheetTitles.forEach((section, index) => {
 				if (section !== "undefined") {
 					const sectionButton = document.createElement('button');
 					sectionButton.id = 'section' + index;
@@ -53,7 +53,7 @@
 		} else {
 			console.log("Sheets are still loading... Retrying in 500ms");
 			if (typeof State !== "undefined") {
-				console.log("Sheets loaded: " + State.variables.sheetsLoaded + " / " + State.variables.sheetCount);
+				console.log("Sheets loaded: " + sugarCubeVariables.sheetsLoaded + " / " + sugarCubeVariables.sheetCount);
 			}
 			else {
 				console.log("State is undefined. Sheets not loaded.");
@@ -63,11 +63,5 @@
 	}
 
 	
-	if (typeof State == "undefined") {
-		$(document).on(':storyready', function() {
-			waitForSheetsAndInitialize();
-		});
-	} 
-	
-	else waitForSheetsAndInitialize();
+	waitForSheetsAndInitialize();
 </script>
