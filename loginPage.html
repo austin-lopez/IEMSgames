@@ -64,16 +64,17 @@
 				
 				if (currentSection === -1) {
 					currentSection = 0;
+
 					//alert('Please select a class section.');
 					//return;
 				}
 				
 				const netid = document.getElementById('nuid').value.toLowerCase();
-				const fullname = document.getElementById('nick').value || netIdDatabase[netid.toUpperCase()] || 'Player "' + netid.substring(0, 3) + '"';
+			//	const fullname = document.getElementById('nick').value || netIdDatabase[netid.toUpperCase()] || 'Player "' + netid.substring(0, 3) + '"';
 
 				if (/^[a-zA-Z]+[0-9]{3,4}$/.test(netid) && netid.length > 5 && netid.length < 8) {
 					$.wiki('<<set $netid = \'' + netid + '\'>>');
-					$.wiki('<<set $fullname =  \'' + fullname + '\'>>');
+					$.wiki('<<set $fullname =  \'' + netid + '\'>>');
 					$.wiki('<<goto "Start">>');
 					
 				} else {
